@@ -1,0 +1,46 @@
+{
+  "doctorSpecializations": [
+    "General Physician",
+    "Cardiologist",
+    "Dermatologist",
+    "Orthopedic"
+  ],
+  "doctorsBySpecialization": {
+"General Physician": [
+  "Dr. A. Sharma",
+  "Dr. Anita Sharma",
+  "Dr. Rahul Mehta",
+  "Dr. Sneha Kapoor"
+],
+"Cardiologist": [
+  "Dr. B. Kapoor",
+  "Dr. Arjun Verma",
+  "Dr. Neha Bhatia",
+  "Dr. Vikas Malhotra"
+],
+"Dermatologist": [
+  "Dr. C. Mehta",
+  "Dr. Priya Nair",
+  "Dr. Amit Khanna",
+  "Dr. Kavita Joshi"
+],
+"Orthopedic": [
+  "Dr. Rohit Singh",
+  "Dr. Manish Gupta",
+  "Dr. Pooja Reddy",
+  "Dr. Deepak Yadav"
+]
+  },
+  "availableTimeSlots": [
+    {
+      "id": "morning",
+      "label": "Morning Slot (9:00 AM – 1:00 PM)",
+      "value": "9:00 AM - 1:00 PM"
+    },
+    {
+      "id": "evening",
+      "label": "Evening Slot (4:00 PM – 9:00 PM)",
+      "value": "4:00 PM - 9:00 PM"
+    }
+  ]
+}
