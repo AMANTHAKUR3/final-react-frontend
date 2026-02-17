@@ -80,6 +80,7 @@ export const RoleProvider = ({ children }) => {
     if (currentRole === "patient") {
       localStorage.removeItem("patientUserId");
       localStorage.removeItem("patientEmail");
+      localStorage.removeItem("patientId");
     } else if (currentRole === "doctor") {
       localStorage.removeItem("doctorUserId");
       localStorage.removeItem("doctorEmail");
@@ -88,7 +89,11 @@ export const RoleProvider = ({ children }) => {
       localStorage.removeItem("adminEmail");
     }
     
+    // Clear JWT token and role
+    localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("loginInfo");
+    
     setRole(null);
     setUserId(null);
     setUserEmail(null);

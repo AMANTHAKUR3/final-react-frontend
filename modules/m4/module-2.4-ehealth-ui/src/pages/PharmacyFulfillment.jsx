@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import StatusBadge from '../components/StatusBadge.jsx';
 import pharmacy from '../assets/images/pharmacy.svg';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../../../../../src/api/http'
 
 import {
   HiOutlineSearch,

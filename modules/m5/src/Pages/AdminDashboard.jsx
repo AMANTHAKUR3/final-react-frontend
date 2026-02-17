@@ -13,7 +13,13 @@ export const AdminDashboard = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:8020/admin/api/admin/dashboard");
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8020/admin/api/admin/dashboard", {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
+          }
+        });
 
         if (!response.ok) {
           throw new Error(`Server responded with status: ${response.status}`);

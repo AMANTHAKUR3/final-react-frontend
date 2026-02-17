@@ -10,8 +10,16 @@ export async function registerUser(payload) {
 
 // ---- LOGIN ----
 export async function login(payload) {
-  const { data } = await http.post('/auth/login', payload);
+  const { data } = await http.post('/auth/api/auth/login', payload);
+  
+  // Store token if present
+  if (data?.token) {
+    localStorage.setItem('token', data.token);
+  }
+  
+  // Store full login info for reference
   localStorage.setItem("loginInfo", JSON.stringify(data));
+  
   return data
 }
 

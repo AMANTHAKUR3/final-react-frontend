@@ -27,10 +27,12 @@ export default function Analytics() {
       try {
         // Call your Spring Boot API
         console.log("This is",filters);
+        const token = localStorage.getItem('token');
         const response = await fetch("http://localhost:8020/admin/api/admin/Analytics", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
           },
           body: JSON.stringify({...filters})
         });

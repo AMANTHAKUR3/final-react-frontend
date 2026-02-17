@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import TagInput from '../components/TagInput.jsx';
 import Modal from '../components/Modal.jsx';
-import axios from 'axios';
+// import axios from 'axios';
+import axios from '../../../../../src/api/http'
 import { 
   HiOutlineCheckCircle, 
   HiOutlineClipboardCheck,

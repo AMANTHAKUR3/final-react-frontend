@@ -16,10 +16,12 @@ export const Reports = () => {
 
   const onGenerate = async({ periodType, selectedDate }) => {
     console.log(periodType , selectedDate);
+    const token = localStorage.getItem('token');
     const response = fetch("http://localhost:8020/admin/api/admin/generate",{
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token && { 'Authorization': `Bearer ${token}` })
                   },
                 body: JSON.stringify({
                     frequency: periodType,
@@ -50,7 +52,13 @@ export const Reports = () => {
     const fetchReports = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:8020/admin/api/admin/reports");
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:8020/admin/api/admin/reports", {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
+          }
+        });
         
         if (!response.ok) {
           throw new Error(`Server responded with status: ${response.status}`);

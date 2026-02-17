@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Video, Phone, ArrowLeft, Clock, User, Mic, MicOff, VideoOff, Calendar, Loader2 } from "lucide-react";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../api/http'
+
 
 const PatientVideoCall = () => {
   const navigate = useNavigate();

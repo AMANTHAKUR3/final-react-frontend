@@ -541,7 +541,8 @@
 // }
 
 import React, { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../../../../src/api/http'
 
 export default function HeaderBar({ patient }) {
   const [status, setStatus] = useState(patient.status || patient.patientStatus || "ACTIVE");

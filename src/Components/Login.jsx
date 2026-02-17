@@ -56,10 +56,24 @@ export default function LoginWithRoles() {
       const res = await login(payload)
       console.log("📥 Login response:", res);
 
-      // API returns: { userId: 3, email: "...", role: "PATIENT" }
+      // Store JWT token
+      if (res?.token) {
+        localStorage.setItem('token', res.token)
+        console.log("🔑 JWT token stored");
+      } else {
+        console.warn("⚠️ No token in response!");
+      }
+
+      // API returns: { userId, email, role, patientId, token }
       const resolvedRole = (res?.role || formData.role || '').toLowerCase()
       const resolvedUserId = res?.userId
       const resolvedEmail = res?.email || formData.email.trim()
+      
+      // Store patientId if available
+      if (res?.patientId) {
+        localStorage.setItem('patientId', res.patientId.toString())
+        console.log("👤 Patient ID stored:", res.patientId);
+      }
       
       console.log("👤 Extracted - Role:", resolvedRole, "UserID:", resolvedUserId, "Email:", resolvedEmail);
       

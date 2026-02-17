@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Calendar, Clock, User, Phone, Video, Building2, X, CheckCircle, XCircle, FileText, Stethoscope, Loader2 } from "lucide-react";
-import axios from "axios";
+// import axios from "axios";
+import axios from '../api/http'
 
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);

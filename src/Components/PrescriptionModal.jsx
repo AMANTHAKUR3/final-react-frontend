@@ -25,7 +25,13 @@ export default function PrescriptionModal({setViewPrescriptions }) {
 
     const fetchPrescriptions = async () => {
       try {
-        const res = await fetch(`http://localhost:8020/Prescription/api/prescriptions/patient-prescriptions?userId=${userId}`);
+        const token = localStorage.getItem('token');
+        const res = await fetch(`http://localhost:8020/Prescription/api/prescriptions/patient-prescriptions?userId=${userId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
+          }
+        });
         if (!res.ok) throw new Error("Failed to fetch prescriptions");
         const data = await res.json();
         setPrescriptions(data);

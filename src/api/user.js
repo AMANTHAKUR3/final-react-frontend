@@ -3,7 +3,7 @@ import http from './http'
 
 // ---- GET USER BY ID (Patient) ----
 export async function getUserById(id) {
-  const { data } = await http.get(`/auth/${id}`)
+  const { data } = await http.get(`/auth/api/auth/${id}`)
   return data
 }
 

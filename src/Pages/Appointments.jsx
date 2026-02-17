@@ -74,7 +74,13 @@ const Appointments = () => {
       try {
         setIsLoadingDoctors(true);
         setDoctorLoadError("");
-  const response = await fetch("http://localhost:9169/api/doctor/specialization");
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:9169/api/doctor/specialization", {
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token && { 'Authorization': `Bearer ${token}` })
+          }
+        });
         if (!response.ok) {
           throw new Error(`Failed to load doctors (status ${response.status})`);
         }
@@ -232,9 +238,13 @@ const Appointments = () => {
 
     try {
       setIsLoading(true);
+      const token = localStorage.getItem('token');
       const response = await fetch(`http://localhost:9169/api/appointments/book?userId=${userId}&patientUserID=${Number(JSON.parse(localStorage.getItem("loginInfo")).patientId)}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          ...(token && { 'Authorization': `Bearer ${token}` })
+        },
         body: JSON.stringify(payloadToSend),
       });
 
