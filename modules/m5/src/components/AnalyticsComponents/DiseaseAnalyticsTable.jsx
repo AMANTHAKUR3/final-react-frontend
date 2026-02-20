@@ -1,12 +1,18 @@
 export default function DiseaseAnalyticsTable({data}) {
   const PRIMARY = "#1DB1A2"; // teal
-  const ACCENT  = "#aa4a3a"; // warm accent
+  const ACCENT  = "#F0745A"; // warm accent
+
+  const total = data.reduce((sum, item) => {
+    return sum + item.readmissionRate;
+  }, 0);
+
+
 
   return (
     <div
       className="
         group relative rounded-xl border p-4 md:p-5
-        bg-white shadow-sm transition-all duration-200
+         shadow-sm transition-all duration-200
         hover:shadow-md hover:-translate-y-0.5
       "
       style={{
@@ -25,7 +31,7 @@ export default function DiseaseAnalyticsTable({data}) {
       {/* Header */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-[#1f2a37]">
-          Readmission Rate by Disease
+          Percentage of cases by disease
         </h2>
         <span
           className="inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium"
@@ -50,7 +56,7 @@ export default function DiseaseAnalyticsTable({data}) {
                 className="font-semibold"
                 style={{ color: PRIMARY }}
               >
-                {item.readmissionRate}
+                {((item.readmissionRate*100)/total).toFixed(1)}%
               </span>
             </div>
 
@@ -59,7 +65,7 @@ export default function DiseaseAnalyticsTable({data}) {
               <div
                 className="h-2.5 rounded-full transition-all duration-300"
                 style={{
-                  width: item.readmissionRate,                      // logic unchanged
+                  width: `${(item.readmissionRate*100)/total}%`,                      // logic unchanged
                   background: `linear-gradient(90deg, ${PRIMARY}, ${ACCENT})`,
                   boxShadow: `0 1px 4px ${PRIMARY}33`,
                 }}

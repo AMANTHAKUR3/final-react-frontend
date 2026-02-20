@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 function AnalyticsFilter({
   defaultValues,
   onApply,
   onChange,
 }) {
+  const INITIAL_FILTERS = {
+    period: '12m',
+    patientType: 'all',
+    department: 'all',
+    metric: 'all',
+  };
+
   const [filters, setFilters] = useState(defaultValues);
 
   const PERIOD_OPTIONS = [
@@ -33,11 +40,6 @@ function AnalyticsFilter({
     { value: 'Diagnostics', label: 'Diagnostics' },
   ];
 
-  const METRIC_OPTIONS = [
-    { value: 'all', label: 'All Metrics' },
-    { value: 'recovery', label: 'Recovery' },
-    { value: 'readmission', label: 'Readmission' },
-  ];
 
   const handleChange = (name) => (e) => {
     const value = e.target.value;
@@ -54,14 +56,14 @@ function AnalyticsFilter({
   };
 
   const handleReset = () => {
-    // 1. Reset Local State
-    setFilters(defaultValues);
+    // 1. Reset Local State to initial defaults
+    setFilters(INITIAL_FILTERS);
     
     // 2. Notify Parent immediately to re-fetch data
-    onApply?.(defaultValues);
+    onApply?.(INITIAL_FILTERS);
     
     // 3. Optional change notification
-    onChange?.({ name: 'reset', value: null, allValues: defaultValues });
+    onChange?.({ name: 'reset', value: null, allValues: INITIAL_FILTERS });
   };
 
   return (
@@ -75,7 +77,7 @@ function AnalyticsFilter({
         rounded-2xl
         shadow-sm
         ring-1 ring-[#1DB1A2]/15
-        grid grid-cols-1 md:grid-cols-4 gap-4
+        grid grid-cols-1 md:grid-cols-3 gap-4
       "
     >
       {/* Decorative top border using accent color */}
@@ -172,34 +174,7 @@ function AnalyticsFilter({
       </div>
 
       {/* Metric */}
-      <div className="flex flex-col gap-1.5">
-        <label className="text-sm font-semibold text-gray-700" htmlFor="metric">
-          Metric
-        </label>
-        <select
-          id="metric"
-          className="
-            border border-[#1DB1A2]/30
-            rounded-lg
-            p-2.5
-            text-sm
-            bg-white
-            shadow-inner
-            focus:outline-none
-            focus:ring-2 focus:ring-[#1DB1A2]
-            focus:border-[#1DB1A2]
-            hover:border-[#1DB1A2]/60
-            cursor-pointer
-            transition-colors
-          "
-          value={filters.metric}
-          onChange={handleChange('metric')}
-        >
-          {METRIC_OPTIONS.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
-          ))}
-        </select>
-      </div>
+      
 
       {/* Actions */}
       <div className="md:col-span-4 flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-2">
@@ -208,14 +183,14 @@ function AnalyticsFilter({
           onClick={handleReset}
           className="
             inline-flex items-center justify-center
-            border border-[#aa4a3a]
-            text-[#aa4a3a]
+            border border-[#F0745A]
+            text-[#F0745A]
             text-sm font-semibold
             px-5 py-2.5
             rounded-lg
             hover:bg-[#aa4a3a]/10
             active:bg-[#aa4a3a]/15
-            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#aa4a3a]
+            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#F0745A]
             transition-colors
             cursor-pointer
           "

@@ -59,7 +59,6 @@ export const AdminDashboard = () => {
 
           <PatientInOutCard 
             inoutdata = {dashboardStats.patientStatusDistribution}
-          
           />
         </div>
     </>

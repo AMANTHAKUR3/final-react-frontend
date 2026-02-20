@@ -1,5 +1,5 @@
-export const Metric = ({ value, label, onClick }) => {
-  const accent = '#1DB1A2';
+export const Metric = ({ value, label, onClick, accentColor }) => {
+  const accent = accentColor || '#1DB1A2';
 
   return (
     <div
@@ -14,38 +14,38 @@ export const Metric = ({ value, label, onClick }) => {
       }}
       className="
         group relative flex items-start gap-3
-        rounded-md border p-4
-        bg-white transition-all
-        hover:bg-[rgba(29,177,162,0.05)] hover:-translate-y-[1px] hover:shadow-md
+        rounded-xl border p-4 cursor-pointer
+        bg-white transition-all duration-200
+        hover:bg-[rgba(29,177,162,0.04)] hover:-translate-y-0.5 hover:shadow-md
         focus:outline-none
       "
       style={{
-        // Combined accent: left border + subtle overall border tint
-        borderLeft: `4px solid ${accent}`,
-        borderColor: `${accent}20`, // gentle border tint
+        borderColor: '#dbe5ef',
+        backgroundImage: 'linear-gradient(180deg, #ffffff, #f6fbfc)',
+        boxShadow: '0 4px 20px -4px rgba(33, 45, 63, 0.08)',
       }}
     >
-      {/* Top accent line using a pseudo element for clean rounded corners */}
+      {/* Top accent line */}
       <span
         aria-hidden="true"
-        className="absolute left-0 right-0 top-0 h-[3px] rounded-t-md"
+        className="absolute left-0 right-0 top-0 h-[3px] rounded-t-xl"
         style={{ backgroundColor: accent }}
       />
 
       {/* Accent dot */}
       <span
         aria-hidden="true"
-        className="h-2 w-2 mt-1 rounded-full shrink-0"
+        className="h-2 w-2 mt-1.5 rounded-full shrink-0"
         style={{ backgroundColor: accent }}
       />
 
       <div className="flex-1">
-        {/* Darker non-numeric text */}
-        <p className="text-sm text-gray-700">{label}</p>
+        {/* Label — matches StatCard label color */}
+        <p className="text-sm font-medium" style={{ color: '#58697f' }}>{label}</p>
 
         {/* Value in accent */}
         <p
-          className="text-lg font-semibold mt-0.5 transition-colors"
+          className="text-lg font-semibold mt-0.5 tracking-tight transition-colors"
           style={{ color: accent }}
         >
           {value}

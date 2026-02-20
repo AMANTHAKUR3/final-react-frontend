@@ -1,7 +1,4 @@
-import React from 'react';
 import { Line } from 'react-chartjs-2';
-
-
 
 export default function LineChart({readmitted,recovered}) {
   const labels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];

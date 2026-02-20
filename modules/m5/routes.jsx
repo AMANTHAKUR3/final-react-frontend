@@ -1,4 +1,3 @@
-import React from "react";
 import AdminLayout from "./layout.jsx";
 import { AdminDashboard } from "./src/Pages/AdminDashboard.jsx";
 import { Reports } from "./src/Pages/Reports.jsx";

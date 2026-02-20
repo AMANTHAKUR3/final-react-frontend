@@ -2,7 +2,7 @@ import { Bar } from "react-chartjs-2";
 
 function PatientFlowChart({ data }) {
   const PRIMARY = "#1DB1A2"; // teal
-  const ACCENT  = "#aa4a3a"; // warm accent
+  const ACCENT  = "#F0745A"; // warm accent
 
   const chartData = {
     labels: data.map(item => item.month),

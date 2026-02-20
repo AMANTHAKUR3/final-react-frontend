@@ -1,4 +1,3 @@
-import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -20,7 +19,7 @@ const data = {
     {
       label: 'Appointment Distribution',
       data: [Math.ceil(((IN_PERSON/total)*100)),Math.floor((( VIRTUAL/total)*100))],
-      backgroundColor: ['#1DB1A2', 'rgba(29, 177, 162, 0.18)'],
+      backgroundColor: ['#F0745A','#1DB1A2'],
       borderColor: '#ffffff',
       borderWidth: 2,
       hoverOffset: 6,

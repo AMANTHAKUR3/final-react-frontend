@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import AnalyticsHeader from "../components/AnalyticsComponents/AnalyticsHeader";
 import AnalyticsFilter from "../components/AnalyticsComponents/AnalyticsFilter";
 import RecoveryReadmissionChart from "../components/AnalyticsComponents/Chartcomponents/RecoveryReadmissionChart";
 import PatientFlowChart from "../components/AnalyticsComponents/Chartcomponents/PatientFlowChart";
 import DiseaseAnalyticsTable from "../components/AnalyticsComponents/DiseaseAnalyticsTable";
-import AnalyticsInsights from "../components/AnalyticsComponents/AnalyticsInsights";
 
 export default function Analytics() {
   // 1. STATE: Store filters and the fetched dashboard data
@@ -57,7 +56,7 @@ export default function Analytics() {
   };
 
   return (
-    <div className="m-auto max-w-[70%] bg-gray-50 min-h-screen pb-10">
+    <div className="m-auto max-w-[70%] min-h-screen pb-10">
       <AnalyticsHeader />
 
       {/* Pass the handler to the Filter component */}
@@ -94,11 +93,6 @@ export default function Analytics() {
             <DiseaseAnalyticsTable
               data={dashboardData.readmissionByDisease}
             />
-
-            {/* Insights Panel */}
-            {/* <AnalyticsInsights
-              data={dashboardData.insights}
-            /> */}
           </div>
         </>
       )}

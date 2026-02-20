@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useRole } from "../../../../src/Context/RoleContext";
 import { getUserById } from "../../../../src/api/user";
 
 
 export const Header = () => {
-    const location = useLocation();
     const navigate = useNavigate();
     const { clearRole, userId } = useRole();
     const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -56,7 +55,7 @@ export const Header = () => {
                             className="flex items-center gap-3 p-1 pr-3 rounded-full hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-200 cursor-pointer"
                         >
                             {/* Avatar Circle with Initials or Icon */}
-                            <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-black shadow-sm">
+                            <div className="w-8 h-8 rounded-full bg-[#1DB1A2] flex items-center justify-center text-white text-xs font-black shadow-sm">
                                 {getInitials(userData?.fullName)}
                             </div>
                             <div className="hidden sm:block text-left">

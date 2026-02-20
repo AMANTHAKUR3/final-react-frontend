@@ -120,7 +120,11 @@ const Appointments = () => {
 
       if (!personalData.dob) {
         newErrors.dob = "Date of birth is required";
-      } else {
+      } 
+      if (!personalData.bloodGroup) {
+        newErrors.bloodGroup = "blood group is required";
+      }
+      else {
         const dobDate = new Date(personalData.dob);
         const today = new Date();
         if (dobDate >= today) {
@@ -216,6 +220,7 @@ const Appointments = () => {
       patientPhone: personalData.phone,
       patientGender: normalizedGender,
       patientDob: personalData.dob,
+      bloodGroup: personalData.bloodGroup,
       insurancePolicy: personalData.insurancePolicy,
     };
 
@@ -370,6 +375,7 @@ const Appointments = () => {
                             delete newErrors.phone;
                             delete newErrors.gender;
                             delete newErrors.dob;
+                            delete newErrors.bloodGroup;
                             return newErrors;
                           });
                         }

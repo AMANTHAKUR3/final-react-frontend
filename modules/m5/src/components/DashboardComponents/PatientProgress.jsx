@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const PatientsProgress = ({ total, inPatients, outPatients }) => {
   const inPercent = Math.round((inPatients / total) * 100);

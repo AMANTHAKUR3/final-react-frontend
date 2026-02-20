@@ -2,46 +2,47 @@ import { ReportRow } from "./ReportRow";
 export const ReportTable = ({ reports, setReportViewModal, setCurrentReport }) => {
   return (
     <div
-      className="relative bg-white rounded-xl border shadow-sm overflow-x-scroll"
+      className="relative bg-white rounded-xl border shadow-sm overflow-x-auto"
       style={{
         borderColor: "#dbe5ef",
         boxShadow: "0 4px 20px -4px rgba(33, 45, 63, 0.08)",
         backgroundImage: "linear-gradient(180deg, #ffffff, #f6fbfc)",
       }}
     >
-      {/* Top Accent Line */}
-      <span
-        className="absolute left-0 top-0 w-full h-[3px] rounded-t-xl"
-        style={{ backgroundColor: "#1DB1A2" }} // teal accent
-        aria-hidden="true"
-      />
 
       <table className="w-full border-collapse">
-        <thead className="bg-gray-50">
-          <tr className="text-left text-sm font-medium text-gray-700">
+        <thead>
+          <tr
+            className="text-left text-sm font-medium border-b"
+            style={{ color: "#58697f", borderColor: "#dbe5ef" }}
+          >
             <th className="p-4">Report ID</th>
             <th className="p-4">Period</th>
             <th className="p-4">Recovery Rate</th>
-            <th className="p-4">Readmission</th>
+            <th className="p-4" style={{ color: '#F0745A' }}>Readmission</th>
             <th className="p-4 text-center">Action</th>
           </tr>
         </thead>
 
-        <tbody className="divide-y divide-gray-100">
-          {reports.map((report) => (
-            <ReportRow
-              key={report.reportId}
-              report={report}
-              setReportViewModal={setReportViewModal}
-              setCurrentReport={setCurrentReport}
-            />
-          ))}
+        <tbody className="divide-y" style={{ borderColor: "#dbe5ef22" }}>
+          {reports.length === 0 ? (
+            <tr>
+              <td colSpan="5" className="p-8 text-center text-sm" style={{ color: "#58697f" }}>
+                No reports found. Click <strong style={{ color: "#1DB1A2" }}>Generate Report</strong> to create one.
+              </td>
+            </tr>
+          ) : (
+            reports.map((report) => (
+              <ReportRow
+                key={report.reportId}
+                report={report}
+                setReportViewModal={setReportViewModal}
+                setCurrentReport={setCurrentReport}
+              />
+            ))
+          )}
         </tbody>
       </table>
-
-      <div className="p-4 text-right text-sm text-gray-500">
-        {reports[0]?.generatedDate}
-      </div>
     </div>
   );
 };

@@ -48,7 +48,7 @@ export const ReportView = ({
     }
   };
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
       <div
         className="
           relative bg-white w-full max-w-2xl rounded-xl shadow-lg p-6
@@ -57,7 +57,7 @@ export const ReportView = ({
         style={{
           borderColor: '#dbe5ef',
           backgroundImage: 'linear-gradient(180deg, #ffffff, #f6fbfc)',
-          boxShadow: '0 8px 30px -12px rgba(33, 45, 63, 0.12), 0 0 36px rgba(29, 177, 162, 0.14)', // subtle + teal glow
+          boxShadow: '0 8px 30px -12px rgba(33, 45, 63, 0.12), 0 0 36px rgba(29, 177, 162, 0.14)',
         }}
       >
         {/* Top Accent Line */}
@@ -69,61 +69,69 @@ export const ReportView = ({
 
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">
-            Report Summary – {CurrentReport.id || 'N/A'}
+          <h2 className="text-xl font-semibold text-slate-800">
+            Report Summary – <span style={{ color: '#1DB1A2' }}>{CurrentReport.id || 'N/A'}</span>
           </h2>
           <button
+            className="inline-flex items-center justify-center cursor-pointer rounded-md p-2 hover:bg-gray-100 transition"
+            style={{ color: '#58697f' }}
             onClick={() => setReportViewModal(prev => !prev)}
-            className="text-gray-500 hover:text-gray-700 text-xl"
-            type="button"
             aria-label="Close modal"
+            type="button"
           >
-            ✕
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            </svg>
           </button>
         </div>
 
         {/* Metadata */}
-        <div className="text-sm text-gray-600 mb-6">
-          <p><span className="font-medium">Period:</span> {CurrentReport.period || 'N/A'}</p>
-          <p><span className="font-medium">Generated On:</span> {CurrentReport.generatedDate || new Date().toLocaleDateString()}</p>
+        <div className="text-sm mb-6" style={{ color: '#58697f' }}>
+          <p><span className="font-semibold text-slate-700">Period:</span> {CurrentReport.period || 'N/A'}</p>
+          <p><span className="font-semibold text-slate-700">Generated On:</span> {CurrentReport.generatedDate || new Date().toLocaleDateString()}</p>
         </div>
 
         {/* Metrics */}
         <div className="grid grid-cols-2 gap-4 mb-6">
           <Metric label="Recovery Rate" value={`${CurrentReport.rateRecovery || 0}%`} />
-          <Metric label="Readmission Rate" value={`${CurrentReport.rateReadmission || 0}%`} />
+          <Metric label="Readmission Rate" value={`${CurrentReport.rateReadmission || 0}%`} accentColor="#F0745A" />
           <Metric label="In-Patients" value={CurrentReport.inPatients || 0} />
-          <Metric label="Out-Patients" value={CurrentReport.outPatients || 0} />
+          <Metric label="Out-Patients" value={CurrentReport.outPatients || 0} accentColor="#F0745A" />
         </div>
 
         {/* Export Section */}
-        <div className="border-t pt-4">
-          <label className="block text-sm font-medium mb-2">
+        <div className="border-t pt-4" style={{ borderColor: '#dbe5ef' }}>
+          <label className="block text-sm font-semibold mb-2" style={{ color: '#58697f' }}>
             Export Format
           </label>
           <select
             value={format}
             onChange={(e) => setFormat(e.target.value)}
             className="
-              w-full rounded-md px-3 py-2 mb-4
-              border border-[#1DB1A2]
+              w-full rounded-lg px-3 py-2 mb-4 text-sm
+              border cursor-pointer
               focus:outline-none focus:ring-2 focus:ring-[#1DB1A2]
+              transition
             "
+            style={{ borderColor: '#dbe5ef', color: '#58697f' }}
+            onFocus={e => e.currentTarget.style.borderColor = '#1DB1A2'}
+            onBlur={e => e.currentTarget.style.borderColor = '#dbe5ef'}
           >
             <option value="">Select format</option>
-            <option value="PDF">PDF</option>
             <option value="CSV">CSV</option>
             <option value="XLSX">XLSX</option>
           </select>
 
           <div className="flex justify-end gap-3">
-            {/* Close → hover red */}
             <button
               onClick={() => setReportViewModal(prev => !prev)}
               className="
-                px-4 py-2 border rounded-md text-gray-700
-                hover:bg-red-100 hover:text-red-600 transition
+                px-4 py-2 rounded-lg text-sm font-medium cursor-pointer
+                border transition-colors
               "
+              style={{ borderColor: '#dbe5ef', color: '#58697f' }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#fef2f2'; e.currentTarget.style.color = '#F0745A'; e.currentTarget.style.borderColor = '#F0745A'; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = ''; e.currentTarget.style.color = '#58697f'; e.currentTarget.style.borderColor = '#dbe5ef'; }}
               type="button"
             >
               Close
@@ -131,11 +139,14 @@ export const ReportView = ({
 
             <button
               disabled={!format}
-              className={`px-4 py-2 rounded-md text-white transition
-                ${format
-                  ? "bg-[#1DB1A2] hover:bg-[#097268]"
-                  : "bg-[#81dcd3] cursor-not-allowed"
-                }`}
+              className="px-4 py-2 rounded-lg text-sm font-semibold cursor-pointer text-white transition-all"
+              style={{
+                backgroundColor: format ? '#1DB1A2' : '#a7ddd7',
+                boxShadow: format ? '0 2px 8px -2px rgba(29, 177, 162, 0.35)' : 'none',
+                cursor: format ? 'pointer' : 'not-allowed',
+              }}
+              onMouseEnter={e => { if (format) e.currentTarget.style.backgroundColor = '#179e90'; }}
+              onMouseLeave={e => { if (format) e.currentTarget.style.backgroundColor = '#1DB1A2'; }}
               onClick={handleDownloadClick}
               type="button"
             >
