@@ -6,9 +6,9 @@ export const PatientInOutCard = ({inoutdata}) => {
     return (
         <>
             <PatientsProgress 
-            total = {inoutdata.DISCHARGED + inoutdata.INPATIENT} 
-            inPatients = {inoutdata.INPATIENT} 
-            outpatients = {inoutdata.DISCHARGED}
+            total = {(inoutdata.DISCHARGED || 0) + (inoutdata.INPATIENT || 0)} 
+            inPatients = {inoutdata.INPATIENT || 0} 
+            outpatients = {inoutdata.DISCHARGED || 0}
             />
         </>
 

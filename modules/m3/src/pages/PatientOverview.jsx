@@ -36,13 +36,15 @@ export default function PatientOverview() {
       
       {/* PASSING THE ID HERE */}
       <DiagnosisEditor 
-        patientId={id} 
+        patientId={id}
+        onRecordUpdate={triggerRefresh}
       />
       
       <LabResults 
         
         patientId={id} 
-        refreshKey={refreshKey} 
+        refreshKey={refreshKey}
+        onRecordUpdate={triggerRefresh}
       />
       
       <AuditTrailPreview patientId={id} refreshKey={refreshKey} />

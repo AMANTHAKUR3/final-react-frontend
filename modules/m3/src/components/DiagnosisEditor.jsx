@@ -14,7 +14,7 @@ const ICD_10_LIBRARY = [
   { name: 'Asthma (Mild)', code: 'J45.20' },
 ];
 
-export default function DiagnosisEditor({ patientId }) {
+export default function DiagnosisEditor({ patientId, onRecordUpdate }) {
   const [form, setForm] = useState({ name: '', code: '', severity: '', onset: new Date().toISOString().slice(0, 10), notes: '' })
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -55,6 +55,11 @@ export default function DiagnosisEditor({ patientId }) {
       
       setForm({ name: '', code: '', severity: '', onset: new Date().toISOString().slice(0, 10), notes: '' });
       alert("Diagnosis recorded successfully.");
+      
+      // Trigger audit trail refresh
+      if (onRecordUpdate) {
+        onRecordUpdate();
+      }
     } catch (error) {
       console.error("Diagnosis submission failed:", error);
       alert("Server Error: Could not save diagnosis.");

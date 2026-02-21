@@ -52,7 +52,7 @@ export const AdminDashboard = () => {
 
           <ChartView 
           VIRTUAL = {dashboardStats.appointmentDistribution.VIRTUAL}
-          IN_PERSON = {dashboardStats.appointmentDistribution.IN_PERSON}
+          IN_PERSON = {dashboardStats.appointmentDistribution.IN_PERSON || 0}
 
           LineData = {dashboardStats.monthlyTrends}
           />

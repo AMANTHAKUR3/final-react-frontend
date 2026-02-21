@@ -29,7 +29,7 @@ const calculateStatus = (val, refRange) => {
   return "NORMAL";
 };
 
-export default function LabResults({ patientId = 1, refreshKey }) {
+export default function LabResults({ patientId = 1, refreshKey, onRecordUpdate }) {
   const [items, setItems] = useState([]) 
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false) 
@@ -105,6 +105,11 @@ export default function LabResults({ patientId = 1, refreshKey }) {
       await fetchLabs(); 
       setOpen(false);
       setTest(""); setValue(0); setDate("");
+      
+      // Trigger audit trail refresh
+      if (onRecordUpdate) {
+        onRecordUpdate();
+      }
     } catch (error) {
       alert("Error saving record.");
     } finally {
