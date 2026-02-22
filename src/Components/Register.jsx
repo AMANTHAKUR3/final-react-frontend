@@ -2,23 +2,19 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../Components/Header'
 import { registerUser } from '../api/auth'
+import loginHealthcare from '../assets/img.svg'
 
 export default function RegisterHorizontal() {
   const [formData, setFormData] = useState({
-    // UI fields mapped to backend DTO
-    fullName: '',          // ✅ backend key
+    fullName: '',
     email: '',
     phone: '',
     gender: '',
-    dob: '',               // YYYY-MM-DD
-    insurancePolicy: '',   // ✅ backend key
-    bloodGroup: '',        // ✅ backend key
+    dob: '',
+    insurancePolicy: '',
+    bloodGroup: '',
     password: '',
     confirmPassword: '',
-
-    // // (Optional) UI-only fields — NOT sent to backend
-    // address: '',
-    // healthStatus: '',
   })
 
   const [errors, setErrors] = useState({})
@@ -38,9 +34,7 @@ export default function RegisterHorizontal() {
     if (!formData.gender) e.gender = 'Select gender.'
     if (!formData.dob) e.dob = 'Date of birth is required.'
     if (!formData.bloodGroup) e.bloodGroup = 'Blood group is required.'
-    // insurancePolicy may be optional; enforce only if your backend requires it:
-    // if (!formData.insurancePolicy.trim()) e.insurancePolicy = 'Insurance policy is required.'
-    if (formData.password.length < 8) e.password = 'Password must be at least 8 characters.'
+    if (formData.password.length < 8) e.password = 'Min 8 characters.'
     if (formData.password !== formData.confirmPassword) e.confirmPassword = 'Passwords do not match.'
     return e
   }
@@ -54,19 +48,17 @@ export default function RegisterHorizontal() {
     setApiError(null)
     setLoading(true)
     try {
-      // Send exactly what backend expects
       const payload = {
         fullName: formData.fullName.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim(),
         gender: formData.gender,
-        dob: formData.dob, // HTML date input gives YYYY-MM-DD
+        dob: formData.dob,
         insurancePolicy: formData.insurancePolicy.trim(),
         bloodGroup: formData.bloodGroup,
         password: formData.password,
         confirmPassword: formData.confirmPassword,
       }
-
       await registerUser(payload)
       navigate('/login', { replace: true })
     } catch (err) {
@@ -76,242 +68,163 @@ export default function RegisterHorizontal() {
     }
   }
 
-  const inputBase =
-    'w-full rounded-lg border border-slate-300 px-4 py-3 outline-none ' +
-    'focus:border-[#90e0ef] focus:ring-4 focus:ring-[#90e0ef]/30 transition'
-  const rowClass = 'flex flex-col md:flex-row md:items-center gap-2 md:gap-4 mb-4'
-  const labelClass = 'md:w-40 font-semibold text-slate-900'
-  const errorClass = 'text-sm text-red-600 md:ml-40'
+  const inputCls =
+    'w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm outline-none transition ' +
+    'focus:border-teal-400 focus:ring-2 focus:ring-teal-100 placeholder:text-slate-400'
 
   return (
     <>
       <Header />
 
-      <div className="min-h-screen bg-[#f0fdfc] flex items-center justify-center px-4 py-10">
-        <form
-          className="w-full max-w-3xl bg-white rounded-xl shadow-[0_8px_24px_rgba(0,0,0,0.08)]
-                     border-t-4 border-[#149e90] p-8"
-          onSubmit={handleSubmit}
-          noValidate
-        >
-          <h2 className="text-center text-2xl font-extrabold text-[#149e90] mb-6">
-            Patient Registration
-          </h2>
+      <div className="h-[calc(100vh-64px)] relative overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-teal-50 px-4 py-4">
+        <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-cyan-300/30 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-80 w-80 rounded-full bg-teal-300/30 blur-3xl" />
 
-          {apiError && (
-            <div className="mb-4 text-red-700 bg-red-50 border border-red-200 rounded p-3">
-              {apiError}
+        <div className="relative mx-auto flex h-full w-full max-w-5xl items-center justify-center">
+          <div className="grid w-full overflow-hidden rounded-2xl border border-white/50 bg-white/70 shadow-xl backdrop-blur-xl md:grid-cols-[260px_1fr]">
+
+            {/* ── LEFT PANEL ── */}
+            <div className="hidden md:flex flex-col justify-between bg-gradient-to-br from-[#0f766e] to-[#14b8a6] p-7 text-white">
+              <div>
+                <h2 className="text-2xl font-bold leading-tight">Create Account</h2>
+                <p className="mt-2 text-sm text-white/80 leading-relaxed">
+                  Register to book appointments, view records and manage your health journey.
+                </p>
+              </div>
+
+              <div className="mt-4 rounded-xl p-3">
+                <img
+                  src={loginHealthcare}
+                  alt="Healthcare illustration"
+                  className="mx-auto w-[90%] h-auto max-h-[180px] object-contain"
+                />
+              </div>
+
+              <p className="mt-4 text-center text-xs text-white/60">
+                Already have an account?{' '}
+                <Link className="cursor-pointer font-semibold text-white hover:underline" to="/login">
+                  Sign in
+                </Link>
+              </p>
             </div>
-          )}
 
-          {/* Full Name */}
-          <div className={rowClass}>
-            <label className={labelClass}>Full Name</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                placeholder="Enter your full name"
-                required
-              />
-            </div>
-          </div>
-          {errors.fullName && <div className={errorClass}>{errors.fullName}</div>}
+            {/* ── RIGHT PANEL — FORM ── */}
+            <form
+              className="flex w-full items-center justify-center p-5 sm:p-6 overflow-y-auto max-h-[calc(100vh-120px)]"
+              onSubmit={handleSubmit}
+              noValidate
+            >
+              <div className="w-full max-w-md">
+              <h1 className="text-xl font-extrabold text-slate-800">Patient Registration</h1>
+              <p className="mt-0.5 text-xs text-slate-500">Fill in your details to get started</p>
 
-          {/* Email */}
-          <div className={rowClass}>
-            <label className={labelClass}>Email</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="example@gmail.com"
-                required
-              />
-            </div>
-          </div>
-          {errors.email && <div className={errorClass}>{errors.email}</div>}
+              {apiError && (
+                <div className="mt-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
+                  {apiError}
+                </div>
+              )}
 
-          {/* Phone */}
-          <div className={rowClass}>
-            <label className={labelClass}>Phone</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="10-digit phone number"
-                required
-              />
-            </div>
-          </div>
-          {errors.phone && <div className={errorClass}>{errors.phone}</div>}
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Full Name</label>
+                  <input className={inputCls} type="text" name="fullName" value={formData.fullName} onChange={handleChange} required />
+                  {errors.fullName && <span className="mt-0.5 block text-xs text-red-600">{errors.fullName}</span>}
+                </div>
 
-          {/* Gender */}
-          <div className={rowClass}>
-            <label className={labelClass}>Gender</label>
-            <div className="flex-1">
-              <select
-                className={inputBase}
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                required
+                {/* Email */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Email</label>
+                  <input className={inputCls} type="email" name="email" value={formData.email} onChange={handleChange}  required />
+                  {errors.email && <span className="mt-0.5 block text-xs text-red-600">{errors.email}</span>}
+                </div>
+
+                {/* Phone */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Phone</label>
+                  <input className={inputCls} type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="10-digit number" required />
+                  {errors.phone && <span className="mt-0.5 block text-xs text-red-600">{errors.phone}</span>}
+                </div>
+
+                {/* Gender */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Gender</label>
+                  <select className={inputCls} name="gender" value={formData.gender} onChange={handleChange} required>
+                    <option value="">Select</option>
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                  {errors.gender && <span className="mt-0.5 block text-xs text-red-600">{errors.gender}</span>}
+                </div>
+
+                {/* Date of Birth */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Date of Birth</label>
+                  <input className={inputCls} type="date" name="dob" value={formData.dob} onChange={handleChange} required />
+                  {errors.dob && <span className="mt-0.5 block text-xs text-red-600">{errors.dob}</span>}
+                </div>
+
+                {/* Blood Group */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Blood Group</label>
+                  <select className={inputCls} name="bloodGroup" value={formData.bloodGroup} onChange={handleChange} required>
+                    <option value="">Select</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                  </select>
+                  {errors.bloodGroup && <span className="mt-0.5 block text-xs text-red-600">{errors.bloodGroup}</span>}
+                </div>
+
+                {/* Insurance Policy — full width */}
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-slate-600 mb-1">
+                    Insurance Policy <span className="text-slate-400">(optional)</span>
+                  </label>
+                  <input className={inputCls} type="text" name="insurancePolicy" value={formData.insurancePolicy} onChange={handleChange} placeholder="Policy number" />
+                </div>
+
+                {/* Password */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Password</label>
+                  <input className={inputCls} type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Min 8 characters" required />
+                  {errors.password && <span className="mt-0.5 block text-xs text-red-600">{errors.password}</span>}
+                </div>
+
+                {/* Confirm Password */}
+                <div>
+                  <label className="block text-xs font-medium text-slate-600 mb-1">Confirm Password</label>
+                  <input className={inputCls} type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Re-enter password" required />
+                  {errors.confirmPassword && <span className="mt-0.5 block text-xs text-red-600">{errors.confirmPassword}</span>}
+                </div>
+              </div>
+
+              {/* Submit */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-5 mx-auto block w-full max-w-xs cursor-pointer rounded-lg bg-gradient-to-r from-teal-600 to-cyan-600 py-2.5 text-sm font-semibold text-white shadow-md shadow-teal-200 transition hover:from-teal-500 hover:to-cyan-500 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                <option value="">Select</option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-                <option value="OTHER">OTHER</option>
-              </select>
-            </div>
+                {loading ? 'Registering…' : 'Create Account'}
+              </button>
+
+              {/* Mobile-only login link */}
+              <p className="mt-3 text-center text-xs text-slate-500 md:hidden">
+                Already have an account?{' '}
+                <Link className="cursor-pointer font-semibold text-[#F0745A] hover:underline" to="/login">
+                  Login here
+                </Link>
+              </p>
+              </div>
+            </form>
           </div>
-          {errors.gender && <div className={errorClass}>{errors.gender}</div>}
-
-          {/* Date of Birth */}
-          <div className={rowClass}>
-            <label className={labelClass}>Date of Birth</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="date"
-                name="dob"
-                value={formData.dob}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
-          {errors.dob && <div className={errorClass}>{errors.dob}</div>}
-
-          {/* Insurance Policy */}
-          <div className={rowClass}>
-            <label className={labelClass}>Insurance Policy</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="text"
-                name="insurancePolicy"
-                value={formData.insurancePolicy}
-                onChange={handleChange}
-                placeholder="Enter insurance policy number"
-              />
-            </div>
-          </div>
-          {errors.insurancePolicy && <div className={errorClass}>{errors.insurancePolicy}</div>}
-
-          {/* Blood Group */}
-          <div className={rowClass}>
-            <label className={labelClass}>Blood Group</label>
-            <div className="flex-1">
-              <select
-                className={inputBase}
-                name="bloodGroup"
-                value={formData.bloodGroup}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-              </select>
-            </div>
-          </div>
-          {errors.bloodGroup && <div className={errorClass}>{errors.bloodGroup}</div>}
-
-          {/* Password */}
-          <div className={rowClass}>
-            <label className={labelClass}>Password</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                placeholder="Create a strong password"
-                required
-              />
-            </div>
-          </div>
-          {errors.password && <div className={errorClass}>{errors.password}</div>}
-
-          {/* Confirm Password */}
-          <div className={rowClass}>
-            <label className={labelClass}>Confirm Password</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                placeholder="Re-enter your password"
-                required
-              />
-            </div>
-          </div>
-          {errors.confirmPassword && <div className={errorClass}>{errors.confirmPassword}</div>}
-
-          {/* (Optional) Address */}
-          <div className={rowClass}>
-            <label className={labelClass}>Address (optional)</label>
-            <div className="flex-1">
-              <input
-                className={inputBase}
-                type="text"
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                placeholder="Enter your address"
-              />
-            </div>
-          </div>
-
-          {/* (Optional) Health Status */}
-          <div className={rowClass}>
-            <label className={labelClass}>Health Status (optional)</label>
-            <div className="flex-1">
-              <textarea
-                className={inputBase + ' resize-y'}
-                name="healthStatus"
-                value={formData.healthStatus}
-                onChange={handleChange}
-                rows={3}
-                placeholder="Describe your current health status"
-              />
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-4 rounded-lg bg-[#149e90] text-white font-semibold
-                       py-3 hover:bg-[#1DB1A2] transition disabled:opacity-60 disabled:cursor-not-allowed"
-          >
-            {loading ? 'Registering…' : 'Register'}
-          </button>
-
-          <p className="text-center text-sm text-slate-500 mt-4">
-            Already have an account?{' '}
-            <Link className="text-[#149e90] hover:underline" to="/login">
-              Login here
-            </Link>
-          </p>
-        </form>
+        </div>
       </div>
     </>
   )
